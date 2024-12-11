@@ -17,7 +17,6 @@ import environ
 env = environ.Env()
 environ.Env.read_env(env_file=str(BASE_DIR / ".env"))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
