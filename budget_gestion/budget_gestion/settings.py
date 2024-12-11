@@ -84,6 +84,8 @@ WSGI_APPLICATION = 'budget_gestion.wsgi.application'
 #     }
 # }
 
+
+
 DATABASES = {
     'default' : {
         'ENGINE': 'django.db.backends.postgresql',
