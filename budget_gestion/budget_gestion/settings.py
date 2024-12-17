@@ -17,7 +17,6 @@ import environ
 env = environ.Env()
 environ.Env.read_env(env_file=str(BASE_DIR / ".env"))
 import dj_database_url
-from decouple import config
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -100,9 +99,16 @@ DATABASES = {
     }
 }
 
-DATABASES["default"] = dj_database_url.parse(config(
-    default=env('DATABASE_URL'),
-    conn_max_age=600))
+# DATABASES["default"] = dj_database_url.config(
+#     default=env('DATABASE_URL'),
+#     conn_max_age=600)
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=env('DATABASE_URL'),
+        conn_max_age=600
+    )
+}
 
 CORS_ORIGIN_ALLOW_ALL = True
 
