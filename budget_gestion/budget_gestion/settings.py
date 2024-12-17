@@ -95,8 +95,9 @@ WSGI_APPLICATION = 'budget_gestion.wsgi.application'
 # DATABASES["default"] = dj_database_url.config(
 #     default=env('DATABASE_URL'),
 #     conn_max_age=600)
+DATABASE_URL = env('DATABASE_URL')
 DATABASES = {
-    'default': dj_database_url.config(default=config('DATABASE_URL'))
+    'default': dj_database_url.config(default=config(DATABASE_URL))
 }
 
 # DATABASES = {
