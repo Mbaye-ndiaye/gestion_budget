@@ -100,7 +100,9 @@ DATABASES = {
     }
 }
 
-DATABASES["default"] = dj_database_url.parse(config('DATABASE_URL'))
+DATABASES["default"] = dj_database_url.parse(config(
+    default=env('DATABASE_URL'),
+    conn_max_age=600))
 
 CORS_ORIGIN_ALLOW_ALL = True
 
