@@ -10,12 +10,12 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
+        migrations.AlterField(
             model_name='transaction',
             name='date',
             field=models.DateTimeField(auto_now_add=True),
         ),
-        migrations.AddField(
+        migrations.AlterField(
             model_name='transaction',
             name='montant',
             field=models.DecimalField(decimal_places=2, max_digits=100),
