@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from gestionapp.models import CustomUser
 from django.contrib.auth import authenticate
+from ..models.budget_models import Budget
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
@@ -17,7 +18,9 @@ class RegistrationSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
             password=validated_data['password'],
+
         )
+        Budget.objects.create(user=user, total_amount=0.0)
         return user
 
 
