@@ -13,11 +13,11 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
-import environ
+import environ 
 env = environ.Env()
 environ.Env.read_env(env_file=str(BASE_DIR / ".env"))
-import dj_database_url
-from decouple import config
+import dj_database_url 
+from decouple import config 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
