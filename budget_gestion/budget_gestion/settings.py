@@ -19,7 +19,7 @@ environ.Env.read_env(env_file=str(BASE_DIR / ".env"))
 import dj_database_url 
 from decouple import config 
 
-SECRET_KEY = env('SECRET_KEY',)
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -77,23 +77,23 @@ WSGI_APPLICATION = 'budget_gestion.wsgi.application'
 
 
 
-# DATABASES = {
-#     'default' : {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': env("DB_NAME"),
-#         'USER': env("DB_USER"),
-#         'PASSWORD': env("DB_PASSWORD"),
-#         'HOST': env("DB_HOST"),
-#         'PORT': env("DB_PORT"),
-#         'OPTIONS': {
-#             'client_encoding': 'UTF8',
-#         }
-#     }
-# }
+DATABASES = {
+    'default' : {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env("DB_NAME"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'HOST': env("DB_HOST"),
+        'PORT': env("DB_PORT"),
+        'OPTIONS': {
+            'client_encoding': 'UTF8',
+        }
+    }
+}
 
 
 DATABASES = {
-    'default': dj_database_url.config(default=config('DATABASE_URL'))
+    'default': dj_database_url.config(default=env('DATABASE_URL'))
 }
 
 
