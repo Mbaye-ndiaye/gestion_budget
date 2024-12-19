@@ -26,7 +26,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = False
 # DEBUG = config('DEBUG', default=env(False),cast=bool)
 
-ALLOWED_HOSTS = ["gestion-budget-rwdz.onrender.com", "http://0.0.0.0:10000"]
+ALLOWED_HOSTS = ["gestion-budget-rwdz.onrender.com", "http://127.0.0.1:8000/"]
 
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
