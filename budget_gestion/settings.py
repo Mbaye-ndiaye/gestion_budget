@@ -26,7 +26,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = True
 # DEBUG = config('DEBUG', default=env(False),cast=bool)
 
-ALLOWED_HOSTS = [ 'localhost', '127.0.0.1', "gestion-budget-rwdz.onrender.com"]
+ALLOWED_HOSTS = [ "127.0.0.1", "gestion-budget-rwdz.onrender.com"]
 
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'gestionapp',
     'corsheaders',
     'rest_framework_simplejwt',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
