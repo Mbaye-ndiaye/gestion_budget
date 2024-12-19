@@ -20,7 +20,7 @@ environ.Env.read_env(env_file=str(BASE_DIR / ".env"))
 import dj_database_url 
 from decouple import config 
 
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY',)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
