@@ -23,7 +23,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
-DEBUG = config('DEBUG', default=False,cast=bool)
+DEBUG = config('DEBUG', default=env(False),cast=bool)
 
 ALLOWED_HOSTS = ["gestion-budget-rwdz.onrender.com", "http://127.0.0.1:8000/"]
 
