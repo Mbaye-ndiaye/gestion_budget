@@ -20,13 +20,13 @@ environ.Env.read_env(env_file=str(BASE_DIR / ".env"))
 import dj_database_url 
 from decouple import config 
 
-SECRET_KEY = env('SECRET_KEY',)
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 # DEBUG = config('DEBUG', default=env(False),cast=bool)
 
-ALLOWED_HOSTS = ["gestion-budget-rwdz.onrender.com", "http://127.0.0.1:8000/"]
+ALLOWED_HOSTS = [ 'localhost', '127.0.0.1', "gestion-budget-rwdz.onrender.com"]
 
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
@@ -78,19 +78,19 @@ WSGI_APPLICATION = 'budget_gestion.wsgi.application'
 
 
 
-# DATABASES = {
-#     'default' : {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': env("DB_NAME"),
-#         'USER': env("DB_USER"),
-#         'PASSWORD': env("DB_PASSWORD"),
-#         'HOST': env("DB_HOST"),
-#         'PORT': env("DB_PORT"),
-#         'OPTIONS': {
-#             'client_encoding': 'UTF8',
-#         }
-#     }
-# }
+DATABASES = {
+    'default' : {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': env("DB_NAME"),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'HOST': env("DB_HOST"),
+        'PORT': env("DB_PORT"),
+        'OPTIONS': {
+            'client_encoding': 'UTF8',
+        }
+    }
+}
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -166,3 +166,29 @@ REST_FRAMEWORK = {
 
 
 AUTH_USER_MODEL = 'gestionapp.CustomUser'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
+# from .models import CustomUser
+
+# @receiver(post_save, sender=CustomUser)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         # Exemple d'action après la création d'un utilisateur
+#         print(f"Un utilisateur a été créé : {instance}")
