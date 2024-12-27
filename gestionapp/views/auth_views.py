@@ -81,7 +81,6 @@ class RegistrationView(APIView):
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
 class LoginView(APIView):
     """
     Vue pour la connexion des utilisateurs.
