@@ -14,8 +14,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from ..models import CustomUser
-from ..serializers import BudgetSerialzer
+from ..models.auth_models import CustomUser
+from ..serializers.budget_serializers import BudgetSerialzer
 
 class BudgetView(APIView):
     def get(self, request, user_id):
