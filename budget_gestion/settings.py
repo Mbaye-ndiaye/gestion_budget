@@ -13,20 +13,22 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
-import environ
+import os
+import environ 
 env = environ.Env()
 environ.Env.read_env(env_file=str(BASE_DIR / ".env"))
+import dj_database_url 
+from decouple import config 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY',)
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = config('DEBUG', default=env(False),cast=bool)
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [ "127.0.0.1", "gestion-budget-rwdz.onrender.com"]
+
+# ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
 
 # Application definition
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     'gestionapp',
     'corsheaders',
     'rest_framework_simplejwt',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'budget_gestion.urls'
@@ -74,15 +78,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'budget_gestion.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 DATABASES = {
     'default' : {
@@ -97,6 +92,19 @@ DATABASES = {
         }
     }
 }
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=env('DATABASE_URL'),
+        conn_max_age=600
+    )
+}
+
+# DATABASES = {
+#     'default': dj_database_url.config(default=env('DATABASE_URL'))
+# }
+
+
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -136,6 +144,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -158,3 +167,29 @@ REST_FRAMEWORK = {
 
 
 AUTH_USER_MODEL = 'gestionapp.CustomUser'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
+# from .models import CustomUser
+
+# @receiver(post_save, sender=CustomUser)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         # Exemple d'action après la création d'un utilisateur
+#         print(f"Un utilisateur a été créé : {instance}")
