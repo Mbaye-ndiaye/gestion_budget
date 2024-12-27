@@ -72,14 +72,16 @@ class RegistrationView(APIView):
     """
     Vue pour l'enregistrement des utilisateurs.
     """
-    def post(self, request):
-        serializer = RegistrationSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            return Response({
-                'user': RegistrationSerializer(user).data,  # Données utilisateur
-            }, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class RegistrationView(APIView):
+     """
+     Vue pour l'inscription des utilisateurs avec numéro de téléphone et mot de passe.
+     """
+     def post(self, request):
+         serializer = RegistrationSerializer(data=request.data)
+         if serializer.is_valid():
+             user = serializer.save()
+             return Response({"message": "Utilisateur créé avec succès."}, status=status.HTTP_201_CREATED)
+         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginView(APIView):

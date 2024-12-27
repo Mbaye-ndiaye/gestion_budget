@@ -157,11 +157,6 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
-# Configuration des backends d'authentification
-AUTHENTICATION_BACKENDS = [
-    'auth.authentication_backends.PhoneNumberBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
 
 # REST Framework settings
 REST_FRAMEWORK = {
