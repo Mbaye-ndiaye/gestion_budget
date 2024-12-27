@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate
 from ..models.budget_models import Budget
 
 class RegistrationSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, min_length=8)
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = CustomUser
@@ -12,7 +12,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = CustomUser.objects.create_user(
-            username=validated_data['email'],  # Utilisez l'email comme nom d'utilisateur
+            username=validated_data['phone_number'],  # Utilisez le numéro de téléphone comme nom d'utilisateur
             email=validated_data['email'],
             phone_number=validated_data['phone_number'],
             first_name=validated_data['first_name'],
@@ -25,11 +25,18 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    phone_number = serializers.CharField()
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        user = authenticate(username=data['email'], password=data['password'])
-        if not user:
-            raise serializers.ValidationError("Identifiants invalides.")
-        return user
+        phone_number = data.get('phone_number')
+        password = data.get('password')
+
+        if phone_number and password:
+            user = authenticate(phone_number=phone_number, password=password)
+            if user:
+                return user
+            else:
+                raise serializers.ValidationError("Numéro de téléphone ou mot de passe invalide.")
+        else:
+            raise serializers.ValidationError("Les champs 'phone_number' et 'password' sont obligatoires.")
