@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from ..models import CustomUser, Budget, Transaction
 from ..serializers import RegistrationSerializer, BudgetSerialzer, TransactionSerializer
+from rest_framework.exceptions import NotFound
 
 class AddTransactionView(APIView):
     def post(self, request):
@@ -17,8 +18,21 @@ class AddTransactionView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  # Si la sérialisation échoue, renvoie les erreurs
 
 
+# class ListTransactionsView(APIView):
+#     def get(self, request, user_id):
+#         user = CustomUser.objects.get(id=user_id)
+#         serializer = BudgetSerialzer(user.budget)
+#         return Response(serializer.data, status.HTTP_200_OK)
+    
 class ListTransactionsView(APIView):
     def get(self, request, user_id):
-        user = CustomUser.objects.get(id=user_id)
-        serializer = BudgetSerialzer(user.budget)
-        return Response(serializer.data, status.HTTP_200_OK)
+        try:
+            user = CustomUser.objects.get(id=user_id)
+        except CustomUser.DoesNotExist:
+            raise NotFound("Utilisateur non trouvé")
+
+        # Récupérer toutes les transactions liées au budget de l'utilisateur
+        transactions = Transaction.objects.filter(budget=user.budget)
+        serializer = TransactionSerializer(transactions, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)

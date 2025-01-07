@@ -10,7 +10,7 @@ class Transaction(models.Model):
         
     ]
 
-    budget = models.ForeignKey(Budget, on_delete=models.CASCADE, related_name='Transation')
+    budget = models.ForeignKey(Budget, on_delete=models.CASCADE, related_name='transations')
     date = models.DateTimeField(auto_now_add=True)
     transaction_type = models.CharField(max_length=20, choices=TYPE_CHOICES)
     montant = models.DecimalField(max_digits=100, decimal_places=2)
