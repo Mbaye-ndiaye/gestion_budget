@@ -67,6 +67,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from gestionapp.serializers.auth_serializers import RegistrationSerializer, LoginSerializer
+from rest_framework.permissions import IsAuthenticated
 
 class RegistrationView(APIView):
     """
@@ -93,5 +94,35 @@ class LoginView(APIView):
             return Response({
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
+                "user_id": user.id,
             }, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutView(APIView):
+    """
+    Vue pour la déconnexion des utilisateurs.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            # Récupérer le jeton `refresh` depuis la requête
+            refresh_token = request.data.get("refresh")
+
+            if not refresh_token:
+                return Response(
+                    {"error": "Le jeton refresh est requis pour se déconnecter."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+            # Blacklister le jeton pour l'invalider
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response({"message": "Déconnexion réussie."}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response(
+                {"error": "Une erreur est survenue lors de la déconnexion.", "details": str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
