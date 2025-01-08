@@ -60,7 +60,7 @@
 
 
 
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
 class CustomUserManager(BaseUserManager):
@@ -90,7 +90,7 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(phone_number, email, password, **extra_fields)
 
-class CustomUser(AbstractBaseUser):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     """
     Modèle utilisateur personnalisé sans champ `username`.
     """
@@ -111,3 +111,18 @@ class CustomUser(AbstractBaseUser):
 
     def __str__(self):
         return self.phone_number
+    
+    def __str__(self):
+        return self.email
+
+    def has_perm(self, perm, obj=None):
+        """
+        Vérifie si l'utilisateur a une permission spécifique.
+        """
+        return True
+
+    def has_module_perms(self, app_label):
+        """
+        Vérifie si l'utilisateur a des permissions pour une application spécifique.
+        """
+        return True
