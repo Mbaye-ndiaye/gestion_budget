@@ -5,8 +5,8 @@ from decimal import Decimal
 class Transaction(models.Model):
     TYPE_CHOICES = [
         (
-            'expense', 'Depense'),
-            ('income', 'Revenu')
+            'depense', 'Depense'),
+            ('revenu', 'Revenu')
         
     ]
 
@@ -17,13 +17,13 @@ class Transaction(models.Model):
     description = models.TextField()
 
     def save(self, *args, **kwargs):
-        if self.transaction_type == 'expense':
+        if self.transaction_type == 'depense':
             # Verifeir que le budget restant est >= 40% du total
             # if self.budget.total_amount - self.montant < self.budget.total_amount * 0.4:
             if self.budget.total_amount - self.montant < Decimal('0.4') * self.budget.total_amount:
                 raise ValueError("Le budget restant doit etre egal ou superieur a 40% du budget total")
             self.budget.total_amount -= self.montant
-        elif self.transaction_type == 'income':
+        elif self.transaction_type == 'revenu':
             self.budget.total_amount += self.montant
         self.budget.save()
         super().save(*args, **kwargs)
